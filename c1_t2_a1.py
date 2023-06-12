@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import csv
 from scipy import signal as sg
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report
@@ -59,7 +60,7 @@ labels = ['Bicycle', 'Bridge', 'Bus', 'Car', 'Chimney',
           'Crosswalk', 'Hydrant', 'Motorcycle', 'Palm', 'Traffic Light']
 
 recaptcha_train = './recaptcha-dataset/Large'
-recaptcha_test = './test-dataset/Large'
+recaptcha_test = './query'
 
 train_features = []
 train_labels = []
@@ -78,18 +79,33 @@ for label in labels:
         train_labels.append(label)
 
 # Test dataset collection
-for label in labels:
-    image_dir = os.path.join(recaptcha_test, label)
-    image_list = os.listdir(image_dir)
-    for image_name in image_list:
-        image_path = os.path.join(image_dir, image_name)
-        features = extract_texture_features(image_path)
+image_dir = os.path.join(recaptcha_test)
+image_list = os.listdir(image_dir)
+for image_name in image_list:
+    image_path = os.path.join(image_dir, image_name)
+    features = extract_texture_features(image_path)
 
-        test_features.append(features)
-        test_labels.append(label)
+    test_features.append(features)
+    test_labels.append(label)
 
 # Classifier training and evaluation
 classifier = KNeighborsClassifier(n_neighbors=3)
 classifier.fit(train_features, train_labels)
 predict_labels = classifier.predict(test_features)
-print(classification_report(test_labels, predict_labels))
+# print(classification_report(test_labels, predict_labels))
+
+predict_labels = classifier.predict(test_features)
+print(predict_labels)
+
+with open('c1_t1_a1.csv','w') as file :
+    write = csv.writer(file)
+    for i, predict_label in enumerate(predict_labels):
+        write.writerow([f'query{i+1}.png', predict_label])
+
+neigh_ind = classifier.kneighbors(X=test_features, n_neighbors=10, return_distance=False) # Top-10 results
+neigh_labels = np.array(train_labels)[neigh_ind]  
+
+with open('c1_t2_a1.csv','w') as file :
+    write = csv.writer(file)
+    for i, neigh_label in enumerate(neigh_labels):
+        write.writerow([f'query{i+1}.png'] + list(neigh_label))
