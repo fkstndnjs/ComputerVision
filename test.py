@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-image_path = './recaptcha-dataset/Large/Bicycle/Bicycle (3).png'
+image_path = './recaptcha-dataset/Large/Bicycle/Bicycle (4).png'
 
 # point processing
 # load BGR image
@@ -29,132 +29,132 @@ edge_canny = cv2.Canny(gray, 100, 200)
 edge_sobelx = cv2.Sobel(gray, ddepth=-1, dx=1, dy=0, delta=128)
 edge_sobely = cv2.Sobel(gray, ddepth=-1, dx=0, dy=1, delta=128)
 
-# sharpening
-sharp = cv2.addWeighted(image, 2, blur_gauss, -1, 0)
+# # sharpening
+# sharp = cv2.addWeighted(image, 2, blur_gauss, -1, 0)
 
-# visualization
-plt.figure(figsize=(8, 8))
+# # # visualization
+# # plt.figure(figsize=(8, 8))
 
-plt.subplot(3, 3, 1)
-plt.title('image')
-plt.axis('off')
-plt.imshow(image)
+# # plt.subplot(3, 3, 1)
+# # plt.title('image')
+# # plt.axis('off')
+# # plt.imshow(image)
 
-plt.subplot(3, 3, 2)
-plt.title('gray')
-plt.axis('off')
-plt.imshow(gray, cmap='gray')
+# # plt.subplot(3, 3, 2)
+# # plt.title('gray')
+# # plt.axis('off')
+# # plt.imshow(gray, cmap='gray')
 
-plt.subplot(3, 3, 3)
-plt.title('HSI')
-plt.axis('off')
-plt.imshow(hsi)
+# # plt.subplot(3, 3, 3)
+# # plt.title('HSI')
+# # plt.axis('off')
+# # plt.imshow(hsi)
 
-plt.subplot(3, 3, 4)
-plt.title('contrast stretch')
-plt.axis('off')
-plt.imshow(stretch, cmap='gray')
+# # plt.subplot(3, 3, 4)
+# # plt.title('contrast stretch')
+# # plt.axis('off')
+# # plt.imshow(stretch, cmap='gray')
 
-plt.subplot(3, 3, 5)
-plt.title('gaussian filter')
-plt.axis('off')
-plt.imshow(blur_gauss)
+# # plt.subplot(3, 3, 5)
+# # plt.title('gaussian filter')
+# # plt.axis('off')
+# # plt.imshow(blur_gauss)
 
-plt.subplot(3, 3, 6)
-plt.title('median filter')
-plt.axis('off')
-plt.imshow(blur_median)
+# # plt.subplot(3, 3, 6)
+# # plt.title('median filter')
+# # plt.axis('off')
+# # plt.imshow(blur_median)
 
-plt.subplot(3, 3, 7)
-plt.title('canny edge')
-plt.axis('off')
-plt.imshow(edge_canny, cmap='gray')
+# # plt.subplot(3, 3, 7)
+# # plt.title('canny edge')
+# # plt.axis('off')
+# # plt.imshow(edge_canny, cmap='gray')
 
-plt.subplot(3, 3, 8)
-plt.title('sobel edge')
-plt.axis('off')
-plt.imshow(edge_sobelx, cmap='gray')
+# # plt.subplot(3, 3, 8)
+# # plt.title('sobel edge')
+# # plt.axis('off')
+# # plt.imshow(edge_sobelx, cmap='gray')
 
-plt.subplot(3, 3, 9)
-plt.title('sharpening')
-plt.axis('off')
-plt.imshow(sharp)
+# # plt.subplot(3, 3, 9)
+# # plt.title('sharpening')
+# # plt.axis('off')
+# # plt.imshow(sharp)
 
-def norm_hist(hist):
-    # Normalize the histogram
-    hist = hist.astype('float')
-    hist /= hist.sum()
-    return hist
+# def norm_hist(hist):
+#     # Normalize the histogram
+#     hist = hist.astype('float')
+#     hist /= hist.sum()
+#     return hist
 
-# color histogram
-hist_b, bins_b = np.histogram(image[0], bins=256, range=(0, 256))
-hist_g, bins_g = np.histogram(image[1], bins=256, range=(0, 256))
-hist_r, bins_r = np.histogram(image[2], bins=256, range=(0, 256))
-hist_b = norm_hist(hist_b)    # 256-d
-hist_g = norm_hist(hist_g)    # 256-d
-hist_r = norm_hist(hist_r)    # 256-d
+# # color histogram
+# hist_b, bins_b = np.histogram(image[0], bins=256, range=(0, 256))
+# hist_g, bins_g = np.histogram(image[1], bins=256, range=(0, 256))
+# hist_r, bins_r = np.histogram(image[2], bins=256, range=(0, 256))
+# hist_b = norm_hist(hist_b)    # 256-d
+# hist_g = norm_hist(hist_g)    # 256-d
+# hist_r = norm_hist(hist_r)    # 256-d
 
-# gray histogram
-hist_gray, bins_gray = np.histogram(gray, bins=128, range=(0, 256))
-hist_gray = norm_hist(hist_gray)    # 128-d
+# # gray histogram
+# hist_gray, bins_gray = np.histogram(gray, bins=128, range=(0, 256))
+# hist_gray = norm_hist(hist_gray)    # 128-d
 
-# visualization
-plt.figure(figsize=(20, 3))
+# # # visualization
+# # plt.figure(figsize=(20, 3))
 
-plt.subplot(1, 4, 1)
-plt.title('blue histogran')
-plt.bar(bins_b[:-1], hist_b, width=1)
+# # plt.subplot(1, 4, 1)
+# # plt.title('blue histogran')
+# # plt.bar(bins_b[:-1], hist_b, width=1)
 
-plt.subplot(1, 4, 2)
-plt.title('green histogram')
-plt.bar(bins_g[:-1], hist_g, width=1)
+# # plt.subplot(1, 4, 2)
+# # plt.title('green histogram')
+# # plt.bar(bins_g[:-1], hist_g, width=1)
 
-plt.subplot(1, 4, 3)
-plt.title('red histogram')
-plt.bar(bins_r[:-1], hist_r, width=1)
+# # plt.subplot(1, 4, 3)
+# # plt.title('red histogram')
+# # plt.bar(bins_r[:-1], hist_r, width=1)
 
-plt.subplot(1, 4, 4)
-plt.title('gray histogram')
-plt.bar(bins_gray[:-1], hist_gray, width=1)
+# # plt.subplot(1, 4, 4)
+# # plt.title('gray histogram')
+# # plt.bar(bins_gray[:-1], hist_gray, width=1)
 
 from skimage.feature import local_binary_pattern
 
-# LBP
-lbp = local_binary_pattern(gray, P=8, R=1)
+# # LBP
+# lbp = local_binary_pattern(gray, P=8, R=1)
 
-hist_lbp, bin_lbp = np.histogram(lbp.ravel(), bins=64, range=(0, 256))
-hist_lbp = norm_hist(hist_lbp)    # 64-d
+# hist_lbp, bin_lbp = np.histogram(lbp.ravel(), bins=64, range=(0, 256))
+# hist_lbp = norm_hist(hist_lbp)    # 64-d
 
-# visualization
-plt.figure(figsize=(10, 3))
+# # # visualization
+# # plt.figure(figsize=(10, 3))
 
-plt.subplot(1, 2, 1)
-plt.title('LBP image')
-plt.axis('off')
-plt.imshow(lbp, cmap='gray')
+# # plt.subplot(1, 2, 1)
+# # plt.title('LBP image')
+# # plt.axis('off')
+# # plt.imshow(lbp, cmap='gray')
 
-plt.subplot(1, 2, 2)
-plt.title('LBP histogram')
-plt.bar(bin_lbp[:-1], hist_lbp, width=1)
+# # plt.subplot(1, 2, 2)
+# # plt.title('LBP histogram')
+# # plt.bar(bin_lbp[:-1], hist_lbp, width=1)
 
-# GLCM
+# # GLCM
 from skimage.feature import graycomatrix, graycoprops
 
-glcm = graycomatrix(gray, distances=[1], angles=[0], levels=256, symmetric=False, normed=True)
+# glcm = graycomatrix(gray, distances=[1], angles=[0], levels=256, symmetric=False, normed=True)
 
-max_prob = np.max(glcm)
-contrast = graycoprops(glcm, 'contrast')
-dissimilarity = graycoprops(glcm, 'dissimilarity')
-homogeneity = graycoprops(glcm, 'homogeneity')
-energy = graycoprops(glcm, 'energy')
-correlation = graycoprops(glcm, 'correlation')
+# max_prob = np.max(glcm)
+# contrast = graycoprops(glcm, 'contrast')
+# dissimilarity = graycoprops(glcm, 'dissimilarity')
+# homogeneity = graycoprops(glcm, 'homogeneity')
+# energy = graycoprops(glcm, 'energy')
+# correlation = graycoprops(glcm, 'correlation')
 
-print('Max probability:', max_prob)
-print('Contrast:', contrast[0][0])
-print('Dissimilarity:', dissimilarity[0][0])
-print('Homogeneity:', homogeneity[0][0])
-print('Energy:', energy[0][0])
-print('Correlation:', correlation[0][0])
+# print('Max probability:', max_prob)
+# print('Contrast:', contrast[0][0])
+# print('Dissimilarity:', dissimilarity[0][0])
+# print('Homogeneity:', homogeneity[0][0])
+# print('Energy:', energy[0][0])
+# print('Correlation:', correlation[0][0])
 
 # Law's texture
 from scipy import signal as sg
@@ -204,51 +204,58 @@ def laws_texture(gray):
         
     return TEM
 
-laws = laws_texture(gray)    # 9-d
-print(laws)
+# laws = laws_texture(gray)    # 9-d
+# print(laws)
 
-image1 = cv2.imread('./recaptcha-dataset/Large/Crosswalk/Cross (2).png')
-image2 = cv2.imread('./recaptcha-dataset/Large/Crosswalk/Cross (5).png')
+# # Train and test classifier
+# classifier = KNeighborsClassifier(n_neighbors = 3)
+# classifier.fit(train_features, train_labels)
+# predict_labels = classifier.predict(test_features)
+# print(classification_report(test_labels, predict_labels))
 
-sift = cv2.xfeatures2d.SIFT_create()
-kp1, des1 = sift.detectAndCompute(image1, None)    # des: (n, 128)
-kp2, des2 = sift.detectAndCompute(image2, None)    # des: (n, 128)
 
-bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)
-matches = bf.match(des1,des2)
-print(len(matches))
-matches = sorted(matches, key = lambda x:x.distance)
-image3 = cv2.drawMatches(image1,kp1,image2,kp2,matches[:],None,flags=2)
-plt.imshow(image3)
-plt.show()
+# image1 = cv2.imread('./recaptcha-dataset/Large/Crosswalk/Cross (2).png')
+# image2 = cv2.imread('./recaptcha-dataset/Large/Crosswalk/Cross (5).png')
 
-from skimage.feature import hog
-from skimage import data, exposure
+# sift = cv2.xfeatures2d.SIFT_create()
+# kp1, des1 = sift.detectAndCompute(image1, None)    # des: (n, 128)
+# kp2, des2 = sift.detectAndCompute(image2, None)    # des: (n, 128)
 
-# Extract HoG features
-# fd: 8 * (image.shape[0]//16)*(image.shape[1]//16) dimension
-fd, hog_image = hog(image, orientations=8, pixels_per_cell=(16, 16),
-                    cells_per_block=(1, 1), visualize=True, channel_axis=-1)
+# bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)
+# matches = bf.match(des1,des2)
+# print(len(matches))
+# matches = sorted(matches, key = lambda x:x.distance)
+# image3 = cv2.drawMatches(image1,kp1,image2,kp2,matches[:],None,flags=2)
+# plt.imshow(image3)
+# plt.show()
 
-# Visualize HoG image
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
+# from skimage.feature import hog
+# from skimage import data, exposure
 
-ax1.axis('off')
-ax1.imshow(image, cmap='gray')
-ax1.set_title('Input image')
+# # Extract HoG features
+# # fd: 8 * (image.shape[0]//16)*(image.shape[1]//16) dimension
+# fd, hog_image = hog(image, orientations=8, pixels_per_cell=(16, 16),
+#                     cells_per_block=(1, 1), visualize=True, channel_axis=-1)
 
-# Rescale histogram for better display
-hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 10))
+# # Visualize HoG image
+# fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
 
-ax2.axis('off')
-ax2.imshow(hog_image_rescaled, cmap=plt.cm.gray)
-ax2.set_title('Histogram of Oriented Gradients')
-plt.show()
+# ax1.axis('off')
+# ax1.imshow(image, cmap='gray')
+# ax1.set_title('Input image')
+
+# # Rescale histogram for better display
+# hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 10))
+
+# ax2.axis('off')
+# ax2.imshow(hog_image_rescaled, cmap=plt.cm.gray)
+# ax2.set_title('Histogram of Oriented Gradients')
+# plt.show()
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report
 
-recaptcha = './recaptcha-dataset/Large'
+recaptcha = './recaptcha-dataset2/Large'
 labels = ['Bicycle', 'Bridge', 'Bus', 'Car', 'Chimney', 
           'Crosswalk', 'Hydrant', 'Motorcycle', 'Palm', 'Traffic Light']
 
@@ -265,11 +272,13 @@ for label in labels:
         img = cv2.imread(image_path)
         gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         
+        features = laws_texture(gray_img)
+
         if i < 10:
-            train_features.append(laws_texture(gray_img))
+            train_features.append(features)
             train_labels.append(label)
         elif 10 <= i < 20:
-            test_features.append(laws_texture(gray_img))
+            test_features.append(features)
             test_labels.append(label)
         else:
             break
